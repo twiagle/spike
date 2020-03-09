@@ -1,9 +1,5 @@
 package com.twigle.spike.result;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
-
 public class CodeMsg {
     public int getCode() {
         return code;
@@ -31,9 +27,10 @@ public class CodeMsg {
     public static CodeMsg MOBILE_ERROR = new CodeMsg(500213, "手机号格式错误");
     public static CodeMsg MOBILE_NOT_EXIST = new CodeMsg(500214, "手机号不存在");
     public static CodeMsg PASSWORD_ERROR = new CodeMsg(500215, "密码错误");
-    @Override
-    public String toString() {
-        return "CodeMsg [code=" + code + ", msg=" + msg + "]";
+
+    public CodeMsg fillArgs(Object... args) {
+        String message = String.format(msg, args);
+        return new CodeMsg(code, message);
     }
 
 }

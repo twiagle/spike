@@ -1,0 +1,17 @@
+use spike;
+DROP TABLE IF EXISTS `spike_user`;
+CREATE TABLE `spike_user` (
+  `id` bigint NOT NULL COMMENT '用户id,手机号码',
+  `nickname` varchar(255) NOT NULL COMMENT '登录昵称',
+  `password` varchar(32) DEFAULT NULL COMMENT 'MD5(MD5(pass明文+固定salt)+salt)',
+  `salt` varchar(10) DEFAULT NULL,
+  `head` varchar(128) DEFAULT NULL COMMENT '头像，云存储的id',
+  `register_date` datetime DEFAULT NULL COMMENT '注册时间',
+  `last_login_date` datetime DEFAULT NULL COMMENT '上次登录时间',
+  `login_count` int DEFAULT '0' COMMENT '登录次数',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+-- ----------------------------
+-- Records of miaosha_user
+-- ----------------------------
+INSERT INTO `miaosha_user` VALUES ('18348671077', 'dcc', 'b7797cce01b4b131b433b6acf4add449', '1a2b3c4d', null, '2018-01-27 11:05:07', '2018-01-27 11:05:20', '1');
