@@ -10,8 +10,93 @@ CREATE TABLE `spike_user` (
   `last_login_date` datetime DEFAULT NULL COMMENT '上次登录时间',
   `login_count` int DEFAULT '0' COMMENT '登录次数',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 -- ----------------------------
 -- Records of miaosha_user
 -- ----------------------------
 INSERT INTO `miaosha_user` VALUES ('18348671077', 'dcc', 'b7797cce01b4b131b433b6acf4add449', '1a2b3c4d', null, '2018-01-27 11:05:07', '2018-01-27 11:05:20', '1');
+
+-- ----------------------------
+-- Table structure for goods
+-- ----------------------------
+DROP TABLE IF EXISTS `goods`;
+CREATE TABLE `goods` (
+  `id` bigint NOT NULL COMMENT '商品id',
+  `goods_name` varchar(16) DEFAULT NULL COMMENT '商品名称',
+  `goods_title` varchar(64) DEFAULT NULL COMMENT '商品标题',
+  `goods_img` varchar(64) DEFAULT NULL COMMENT '商品的图片',
+  `goods_detail` longtext COMMENT '商品的详情介绍',
+  `goods_price` decimal(10,2) DEFAULT '0.00' COMMENT '商品单价',
+  `goods_stock` int DEFAULT '0' COMMENT '商品库存，-1表示没有限制',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Records of goods
+-- ----------------------------
+INSERT INTO `goods` VALUES ('1', 'iphoneX', 'Apple iphoneX 手机', '/img/iphonex.png', 'Apple iphoneX 手机 全网通', '8765.00', '10000');
+INSERT INTO `goods` VALUES ('2', '华为9', 'Mate 9 4GB', '/img/meta10.png', '华为9 月光银 全网通双卡双待', '3212.00', '10000');
+
+
+-- ----------------------------
+-- Table structure for spike_goods
+-- ----------------------------
+DROP TABLE IF EXISTS `spike_goods`;
+CREATE TABLE `spike_goods` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '秒杀的商品表',
+  `goods_id` bigint DEFAULT NULL,
+  `spike_price` decimal(10,2) DEFAULT NULL COMMENT '秒杀单价',
+  `stock_count` int DEFAULT NULL COMMENT '库存数量',
+  `start_date` datetime DEFAULT NULL COMMENT '秒杀开始时间',
+  `end_date` datetime DEFAULT NULL COMMENT '秒杀结束时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Records of spike_goods  -- ----------------------------
+INSERT INTO `spike_goods` VALUES ('1', '1', '0.01', '5', '2018-01-29 18:47:00', '2018-02-10 18:50:00');
+INSERT INTO `spike_goods` VALUES ('2', '2', '0.01', '9', '2017-11-12 00:00:00', '2018-01-31 20:00:00');
+
+
+-- ----------------------------
+-- Table structure for orders
+-- ----------------------------
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE `orders` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '订单表',
+  `user_id` bigint DEFAULT NULL COMMENT '用户id',
+  `goods_id` bigint DEFAULT NULL COMMENT '商品id',
+  `delivery_add_id` bigint DEFAULT NULL COMMENT '收获地址id',
+  `goods_name` varchar(16) DEFAULT NULL COMMENT '冗余过来的商品名称',
+  `goods_count` int DEFAULT '0' COMMENT '商品数量',
+  `goods_price` decimal(10,2) DEFAULT '0.00' COMMENT '商品单价',
+  `order_channel` tinyint DEFAULT NULL COMMENT '1pc,2android,3ios',
+  `status` tinyint DEFAULT '0' COMMENT '订单状态：0新建未支付，1待发货，2已发货，3已收货，4已退款，5已完成',
+  `create_date` datetime DEFAULT NULL COMMENT '订单的创建时间',
+  `pay_date` datetime DEFAULT NULL COMMENT '支付时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Records of order_info
+-- ----------------------------
+INSERT INTO `orders` VALUES ('4', '18348671077', '1', null, 'iphoneX', '1', '0.01', '1', '0', '2018-02-09 10:33:19', null);
+
+-- ----------------------------
+-- Table structure for spike_orders
+-- ----------------------------
+DROP TABLE IF EXISTS `spike_orders`;
+CREATE TABLE `spike_orders` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '秒杀订单表',
+  `user_id` bigint DEFAULT NULL COMMENT '用户id',
+  `order_id` bigint DEFAULT NULL COMMENT '商品id',
+  `goods_id` bigint DEFAULT NULL COMMENT '商品id',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `u_uid_gid` (`user_id`,`goods_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Records of spike_orders
+-- ----------------------------
+INSERT INTO `spike_orders` VALUES ('4', '18348671077', '4', '1');
+
+

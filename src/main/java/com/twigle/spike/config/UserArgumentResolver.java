@@ -24,7 +24,7 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public boolean supportsParameter(MethodParameter methodParameter) {
-        return methodParameter.getParameterType() == spikeUserService.getClass();
+        return methodParameter.getParameterType() == SpikeUser.class;
     }
 
     @Override
@@ -33,11 +33,11 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
         HttpServletResponse response = nativeWebRequest.getNativeResponse(HttpServletResponse.class);
 
         String requestParameter = request.getParameter(SpikeUserService.COOKIE_NAME_TOKEN);
-        String cookieParameter = getCookieValue(request, spikeUserService.COOKIE_NAME_TOKEN);
+        String cookieParameter = getCookieValue(request, SpikeUserService.COOKIE_NAME_TOKEN);
         String token;
-        if (StringUtils.isEmpty(requestParameter)) {
+        if (!StringUtils.isEmpty(requestParameter)) {
             token = requestParameter;
-        } else if (StringUtils.isEmpty(cookieParameter)) {
+        } else if (!StringUtils.isEmpty(cookieParameter)) {
             token = cookieParameter;
         } else
             return null;
@@ -47,8 +47,12 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
     }
 
     private String getCookieValue(HttpServletRequest request, String cookieName) {
-        for (Cookie cookie : request.getCookies()) {
-            if (cookie.getName().equals("cookieName"))
+        Cookie[]  cookies = request.getCookies();
+        if(cookies == null || cookies.length <= 0){
+            return null;
+        }
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals(cookieName))
                 return cookie.getValue();
         }
         return null;
