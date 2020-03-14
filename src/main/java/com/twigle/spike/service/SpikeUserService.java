@@ -36,23 +36,21 @@ public class SpikeUserService {
         return spikeUser;
     }
 
-    public boolean login(HttpServletResponse response, LoginVo loginVo) {
+    public String login(HttpServletResponse response, LoginVo loginVo) {
         if (null == loginVo) {
             throw new GlobalException(CodeMsg.SERVER_ERROR);
         }
 
         SpikeUser spikeUser = getByID(Long.parseLong(loginVo.getPhoneNumber()));
         if (null == spikeUser) throw new GlobalException(CodeMsg.MOBILE_NOT_EXIST);
-        else{
-            String calculatedPassword = MD5Util.formPassToDBPass(loginVo.getPassword(), spikeUser.getSalt());
-            if (!spikeUser.getPassword().equals(calculatedPassword)) {
-                throw new GlobalException(CodeMsg.PASSWORD_ERROR);
-            }
-            String token = UUIDUtil.uuid();
-            redisService.set(SpikeUserPrefix.Prefix, token, spikeUser);
-            reviseCookie(response, COOKIE_NAME_TOKEN, token, SpikeUserPrefix.Prefix.expireSeconds());
+        String calculatedPassword = MD5Util.formPassToDBPass(loginVo.getPassword(), spikeUser.getSalt());
+        if (!spikeUser.getPassword().equals(calculatedPassword)) {
+            throw new GlobalException(CodeMsg.PASSWORD_ERROR);
         }
-        return true;
+        String token = UUIDUtil.uuid();
+        redisService.set(SpikeUserPrefix.Prefix, token, spikeUser);
+        reviseCookie(response, COOKIE_NAME_TOKEN, token, SpikeUserPrefix.Prefix.expireSeconds());
+        return token;
     }
 
     private void reviseCookie(HttpServletResponse response, String key, String value, int expiredSeconds) {
