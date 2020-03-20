@@ -4,6 +4,8 @@ import com.twigle.spike.dao.OrderDao;
 import com.twigle.spike.model.Orders;
 import com.twigle.spike.model.SpikeOrders;
 import com.twigle.spike.model.SpikeUser;
+import com.twigle.spike.redis.OrderPrefix;
+import com.twigle.spike.redis.RedisService;
 import com.twigle.spike.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,9 +17,21 @@ import java.util.Date;
 public class OrderService {
     @Autowired
     OrderDao orderDao;
+    @Autowired
+    RedisService redisService;
 
     public SpikeOrders getSpikeOrderByUserIDGoodsID(long userId, long goodsId) {
-        return orderDao.getSpikeOrderByUserIDGoodsID(userId, goodsId);
+        SpikeOrders spikeOrders = redisService.get(OrderPrefix.getSpikeOrderByUidGid,userId + "_" + goodsId, SpikeOrders.class);
+        if(spikeOrders!=null)
+            return spikeOrders;
+        spikeOrders = orderDao.getSpikeOrderByUserIDGoodsID(userId, goodsId);
+        if (spikeOrders != null)
+            redisService.set(OrderPrefix.getSpikeOrderByUidGid, userId + "_" + goodsId, spikeOrders);
+        return spikeOrders;
+    }
+
+    public Orders getOrderById(long orderId) {
+        return orderDao.getOrderById(orderId);
     }
 
     @Transactional
@@ -40,17 +54,12 @@ public class OrderService {
         spikeOrder.setOrderId(order.getId());
         spikeOrder.setUserId(user.getId());
         orderDao.insertSpikeOrder(spikeOrder);//insert into spikeOrder
+        redisService.set(OrderPrefix.getSpikeOrderByUidGid, user.getId() + "_" + goods.getId(), spikeOrder);
         return order;
     }
+
+    public void deleteOrders() {
+        orderDao.deleteOrders();
+        orderDao.deleteSpikeOrders();
+    }
 }
-//        private Long id;
-//        private Long userId;
-//        private Long goodsId;
-//        private Long  deliveryAddrId;
-//        private String goodsName;
-//        private Integer goodsCount;
-//        private Double goodsPrice;
-//        private Integer orderChannel;
-//        private Integer status;
-//        private Date createDate;
-//        private Date payDate;

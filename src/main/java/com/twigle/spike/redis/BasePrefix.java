@@ -1,5 +1,9 @@
 package com.twigle.spike.redis;
 
+/**
+ * each child class only need to put its internal namespace, this class auto add their class name as outer namespace
+ */
+
 public abstract class BasePrefix implements KeyPrefix{
     private int expiredSeconds;
     private String prefix;
@@ -11,7 +15,7 @@ public abstract class BasePrefix implements KeyPrefix{
 
     @Override
     public String getPrefix() {
-        return this.getClass().getSimpleName()+":"+prefix;//class can seperate namespace,prefix can seperate internal
+        return this.getClass().getSimpleName()+":"+prefix;
     }
 
     //construction, never expire, sons will

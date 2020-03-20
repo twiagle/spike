@@ -17,4 +17,13 @@ public interface OrderDao {
 
     @Select("select * from spike_orders where user_id = #{userId} and goods_id = #{goodsId}")
     public SpikeOrders getSpikeOrderByUserIDGoodsID(@Param("userId") long userId, @Param("goodsId") long goodsId);
+
+    @Select("select * from orders where id=#{orderId}")
+    public Orders getOrderById(@Param("orderId") long orderId);
+
+    @Delete("delete from orders")
+    public void deleteOrders();
+
+    @Delete("delete from spike_orders")
+    public void deleteSpikeOrders();
 }

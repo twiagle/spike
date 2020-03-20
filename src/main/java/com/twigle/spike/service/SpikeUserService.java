@@ -22,17 +22,22 @@ public class SpikeUserService {
     SpikeUserDao spikeUserDao;
     @Autowired
     RedisService redisService;
-    public SpikeUser getByID(long id) {
-        return spikeUserDao.getByID(id);
+
+    public SpikeUser getById(long id) {
+        SpikeUser user = redisService.get(SpikeUserPrefix.getById, "" + id, SpikeUser.class);
+        if (user != null) return user;
+        user = spikeUserDao.getByID(id);
+        if (user != null) redisService.set(SpikeUserPrefix.getById, "" + id, user);
+        return user;
     }
 
     public SpikeUser getByToken(HttpServletResponse response,  String token) {
         if (StringUtils.isEmpty(token))
             return null;
 
-        SpikeUser spikeUser = redisService.get(SpikeUserPrefix.Prefix, token, SpikeUser.class);
+        SpikeUser spikeUser = redisService.get(SpikeUserPrefix.token, token, SpikeUser.class);
         if (spikeUser != null)
-            reviseCookie(response, COOKIE_NAME_TOKEN, token, SpikeUserPrefix.Prefix.expireSeconds());
+            reviseCookie(response, COOKIE_NAME_TOKEN, token, SpikeUserPrefix.token.expireSeconds());
         return spikeUser;
     }
 
@@ -41,15 +46,15 @@ public class SpikeUserService {
             throw new GlobalException(CodeMsg.SERVER_ERROR);
         }
 
-        SpikeUser spikeUser = getByID(Long.parseLong(loginVo.getPhoneNumber()));
+        SpikeUser spikeUser = getById(Long.parseLong(loginVo.getPhoneNumber()));
         if (null == spikeUser) throw new GlobalException(CodeMsg.MOBILE_NOT_EXIST);
         String calculatedPassword = MD5Util.formPassToDBPass(loginVo.getPassword(), spikeUser.getSalt());
         if (!spikeUser.getPassword().equals(calculatedPassword)) {
             throw new GlobalException(CodeMsg.PASSWORD_ERROR);
         }
         String token = UUIDUtil.uuid();
-        redisService.set(SpikeUserPrefix.Prefix, token, spikeUser);
-        reviseCookie(response, COOKIE_NAME_TOKEN, token, SpikeUserPrefix.Prefix.expireSeconds());
+        redisService.set(SpikeUserPrefix.token, token, spikeUser);
+        reviseCookie(response, COOKIE_NAME_TOKEN, token, SpikeUserPrefix.token.expireSeconds());
         return token;
     }
 
@@ -58,6 +63,24 @@ public class SpikeUserService {
         cookie.setMaxAge(expiredSeconds);
         cookie.setPath("/");
         response.addCookie(cookie);
+    }
+
+    public boolean updatePassword(String token, long id, String formPass) {//更新数据，如果数据使用缓存，一定要更新缓存
+        //DB取user
+        SpikeUser user = getById(id);
+        if (user == null) {
+            throw new GlobalException(CodeMsg.MOBILE_NOT_EXIST);
+        }
+        //先更新数据库
+        SpikeUser toBeUpdate = new SpikeUser();
+        toBeUpdate.setId(id);
+        toBeUpdate.setPassword(MD5Util.formPassToDBPass(formPass, user.getSalt()));
+        spikeUserDao.update(toBeUpdate);
+        //再处理缓存
+        redisService.delete(SpikeUserPrefix.getById, "" + id);
+        user.setPassword(toBeUpdate.getPassword());
+        redisService.set(SpikeUserPrefix.token, token, user);//更新修改的user信息，同时保持用户登录状态，使用同一token
+        return true;
     }
 }
 

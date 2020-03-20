@@ -21,10 +21,19 @@ public class GoodsService {
         return goodsDao.getGoodsVoByGoodsId(goodsId);
     }
 
-    public void reduceStock(GoodsVo goodsVo) {
+    public boolean reduceStock(GoodsVo goodsVo) {
         SpikeGoods g = new SpikeGoods();
         g.setGoodsId(goodsVo.getId());
-        goodsDao.reduceStock(g);
+        int val = goodsDao.reduceStock(g);
+        return val > 0;
     }
 
+    public void resetStock(List<GoodsVo> goodsList) {
+        for(GoodsVo goods : goodsList ) {
+            SpikeGoods g = new SpikeGoods();
+            g.setGoodsId(goods.getId());
+            g.setStockCount(goods.getStockCount());
+            goodsDao.resetStock(g);
+        }
+    }
 }
