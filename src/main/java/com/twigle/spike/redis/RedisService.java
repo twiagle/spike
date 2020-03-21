@@ -91,7 +91,35 @@ public class RedisService {
             }
         }
     }
+    /**
+     * 增加值
+     * */
+    public <T> Long incr(KeyPrefix prefix, String key) {
+        Jedis jedis = null;
+        try {
+            jedis =  jedisPool.getResource();
+            //生成真正的key
+            String realKey  = prefix.getPrefix() + key;
+            return  jedis.incr(realKey);
+        }finally {
+            returnToPool(jedis);
+        }
+    }
 
+    /**
+     * 减少值
+     * */
+    public <T> Long decr(KeyPrefix prefix, String key) {
+        Jedis jedis = null;
+        try {
+            jedis =  jedisPool.getResource();
+            //生成真正的key
+            String realKey  = prefix.getPrefix() + key;
+            return  jedis.decr(realKey);
+        }finally {
+            returnToPool(jedis);
+        }
+    }
     public <T> T get(KeyPrefix prefix, String key, Class<T> clazz) {
         Jedis jedis = null;
         try {

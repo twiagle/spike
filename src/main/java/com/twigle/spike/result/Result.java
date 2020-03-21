@@ -18,7 +18,7 @@ public class Result<T> {
     }
 
     /**
-     * error
+     * error, corresponding frontend ajax data.code!=0
      */
     public static <T> Result<T> error(CodeMsg codeMsg){
         return new Result<T>(codeMsg);
@@ -30,7 +30,7 @@ public class Result<T> {
         }
     }
     /**
-     * success
+     * success, frontend ajax data.code==0
      */
     public static <T> Result<T> success(T data) {
         return new Result<T>(data);

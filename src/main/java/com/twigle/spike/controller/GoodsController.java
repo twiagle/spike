@@ -29,13 +29,11 @@ public class GoodsController {
     GoodsService goodsService;
     @Autowired
     RedisService redisService;
-    //    @Autowired
-//    SpikeService spikeService;
     @Autowired
     ThymeleafViewResolver thymeleafViewResolver;
 
     /**
-     * redis store html
+     * redis cache html
      *
      * @param request
      * @param response

@@ -6,5 +6,5 @@ public class SpikePrefix extends BasePrefix {
         super(prefix);
     }
 
-    public static SpikePrefix isGoodsSoldOut = new SpikePrefix("gso");
+    public static SpikePrefix isGoodsSoldOut = new SpikePrefix("gso");//for MQReceiver and SpikeService
 }

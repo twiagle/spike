@@ -9,13 +9,14 @@ public class CodeMsg {
         return msg;
     }
 
+
     private int code;
     private  String msg;
-
     private CodeMsg(int code, String msg) {
         this.code=code;
         this.msg = msg;
     }
+
     //通用的错误码
     public static CodeMsg SUCCESS = new CodeMsg(0, "success");
     public static CodeMsg SERVER_ERROR = new CodeMsg(500100, "服务端异常");
@@ -30,6 +31,7 @@ public class CodeMsg {
     //秒杀模块 5005XX
     public static CodeMsg MIAO_SHA_OVER = new CodeMsg(500500, "商品已经秒杀完毕");
     public static CodeMsg REPEATE_MIAOSHA = new CodeMsg(500501, "不能重复秒杀");
+    public static final CodeMsg ORDER_NOT_EXIST = new CodeMsg(500502, "订单不存在");
 
     public CodeMsg fillArgs(Object... args) {
         String message = String.format(msg, args);

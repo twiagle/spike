@@ -37,14 +37,11 @@ public class SpikeUserService {
 
         SpikeUser spikeUser = redisService.get(SpikeUserPrefix.token, token, SpikeUser.class);
         if (spikeUser != null)
-            reviseCookie(response, COOKIE_NAME_TOKEN, token, SpikeUserPrefix.token.expireSeconds());
+            reviseCookie(response, COOKIE_NAME_TOKEN, token, SpikeUserPrefix.token.expireSeconds());//update cookie expire
         return spikeUser;
     }
 
     public String login(HttpServletResponse response, LoginVo loginVo) {
-        if (null == loginVo) {
-            throw new GlobalException(CodeMsg.SERVER_ERROR);
-        }
 
         SpikeUser spikeUser = getById(Long.parseLong(loginVo.getPhoneNumber()));
         if (null == spikeUser) throw new GlobalException(CodeMsg.MOBILE_NOT_EXIST);
