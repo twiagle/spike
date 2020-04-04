@@ -1,6 +1,6 @@
 package com.twigle.spike.dao;
 
-import com.twigle.spike.model.SpikeGoods;
+import com.twigle.spike.domain.SpikeGoods;
 import com.twigle.spike.vo.GoodsVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

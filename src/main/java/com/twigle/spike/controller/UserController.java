@@ -1,6 +1,6 @@
 package com.twigle.spike.controller;
 
-import com.twigle.spike.model.SpikeUser;
+import com.twigle.spike.domain.SpikeUser;
 import com.twigle.spike.redis.RedisService;
 import com.twigle.spike.result.Result;
 import com.twigle.spike.service.SpikeService;

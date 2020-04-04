@@ -1,7 +1,7 @@
 package com.twigle.spike.config;
 
 import com.twigle.spike.exception.GlobalException;
-import com.twigle.spike.model.SpikeUser;
+import com.twigle.spike.domain.SpikeUser;
 import com.twigle.spike.result.CodeMsg;
 import com.twigle.spike.service.SpikeUserService;
 import org.springframework.beans.factory.annotation.Autowired;

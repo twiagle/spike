@@ -1,6 +1,6 @@
 package com.twigle.spike.vo;
 
-import com.twigle.spike.model.Orders;
+import com.twigle.spike.domain.Orders;
 import lombok.Builder;
 import lombok.Data;
 

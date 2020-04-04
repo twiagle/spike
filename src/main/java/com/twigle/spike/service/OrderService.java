@@ -1,9 +1,9 @@
 package com.twigle.spike.service;
 
 import com.twigle.spike.dao.OrderDao;
-import com.twigle.spike.model.Orders;
-import com.twigle.spike.model.SpikeOrders;
-import com.twigle.spike.model.SpikeUser;
+import com.twigle.spike.domain.Orders;
+import com.twigle.spike.domain.SpikeOrders;
+import com.twigle.spike.domain.SpikeUser;
 import com.twigle.spike.redis.OrderPrefix;
 import com.twigle.spike.redis.RedisService;
 import com.twigle.spike.vo.GoodsVo;
@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Service
 public class OrderService {
@@ -46,7 +46,7 @@ public class OrderService {
         order.setGoodsPrice(goods.getSpikePrice());
         order.setOrderChannel(1);
         order.setStatus(0);
-        order.setCreateDate(new Date());
+        order.setCreateDate(LocalDateTime.now());
         orderDao.insertOrder(order);//insert into orders, order will get ID from sql selectKey
         //make spike order
         SpikeOrders spikeOrder = new SpikeOrders();

@@ -2,7 +2,7 @@ package com.twigle.spike.service;
 
 import com.twigle.spike.dao.SpikeUserDao;
 import com.twigle.spike.exception.GlobalException;
-import com.twigle.spike.model.SpikeUser;
+import com.twigle.spike.domain.SpikeUser;
 import com.twigle.spike.redis.RedisService;
 import com.twigle.spike.redis.SpikeUserPrefix;
 import com.twigle.spike.result.CodeMsg;

@@ -1,7 +1,7 @@
 package com.twigle.spike.controller;
 
-import com.twigle.spike.model.Orders;
-import com.twigle.spike.model.SpikeUser;
+import com.twigle.spike.domain.Orders;
+import com.twigle.spike.domain.SpikeUser;
 import com.twigle.spike.result.CodeMsg;
 import com.twigle.spike.result.Result;
 import com.twigle.spike.service.GoodsService;

@@ -1,7 +1,7 @@
 package com.twigle.spike.service;
 
 import com.twigle.spike.dao.GoodsDao;
-import com.twigle.spike.model.SpikeGoods;
+import com.twigle.spike.domain.SpikeGoods;
 import com.twigle.spike.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

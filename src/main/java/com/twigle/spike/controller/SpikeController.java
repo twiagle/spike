@@ -1,6 +1,6 @@
 package com.twigle.spike.controller;
 
-import com.twigle.spike.model.SpikeUser;
+import com.twigle.spike.domain.SpikeUser;
 import com.twigle.spike.rabbitmq.MQSender;
 import com.twigle.spike.rabbitmq.SpikeMessage;
 import com.twigle.spike.redis.GoodsPrefix;
@@ -29,7 +29,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/spike")
-public class SpikeController implements InitializingBean {
+public class SpikeController implements InitializingBean {//初始化bean的方式，实现InitializingBean接口，实现afterPropertiesSet方法，spring将在bean的属性初始化后都会执行该方法
     @Autowired
     GoodsService goodsService;
     @Autowired

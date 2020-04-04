@@ -1,6 +1,6 @@
 package com.twigle.spike.dao;
 
-import com.twigle.spike.model.SpikeUser;
+import com.twigle.spike.domain.SpikeUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;

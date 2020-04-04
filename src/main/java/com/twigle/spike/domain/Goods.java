@@ -1,4 +1,4 @@
-package com.twigle.spike.model;
+package com.twigle.spike.domain;
 
 import lombok.Data;
 

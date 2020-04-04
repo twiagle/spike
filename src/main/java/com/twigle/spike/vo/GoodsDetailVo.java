@@ -1,6 +1,6 @@
 package com.twigle.spike.vo;
 
-import com.twigle.spike.model.SpikeUser;
+import com.twigle.spike.domain.SpikeUser;
 import lombok.Builder;
 import lombok.Data;
 

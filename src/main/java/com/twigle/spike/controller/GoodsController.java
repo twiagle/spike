@@ -1,6 +1,6 @@
 package com.twigle.spike.controller;
 
-import com.twigle.spike.model.SpikeUser;
+import com.twigle.spike.domain.SpikeUser;
 import com.twigle.spike.redis.GoodsPrefix;
 import com.twigle.spike.redis.RedisService;
 import com.twigle.spike.result.Result;
@@ -20,6 +20,7 @@ import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.ZoneOffset;
 import java.util.List;
 
 @Controller
@@ -70,8 +71,8 @@ public class GoodsController {
     public Result<GoodsDetailVo> detail(Model model, SpikeUser spikeUser, @PathVariable("goodsId") long goodsId) {
 
         GoodsVo goodsVo = goodsService.getGoodsVoByGoodsId(goodsId);
-        long startAt = goodsVo.getStartDate().getTime();
-        long endAt = goodsVo.getEndDate().getTime();
+        long startAt = goodsVo.getStartDate().toInstant(ZoneOffset.of("+8")).toEpochMilli();
+        long endAt = goodsVo.getEndDate().toInstant(ZoneOffset.of("+8")).toEpochMilli();
         long now = System.currentTimeMillis();
         int spikeStatus = 0;
         int remainSeconds = 0;

@@ -1,8 +1,8 @@
-package com.twigle.spike.model;
+package com.twigle.spike.domain;
 
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 public class SpikeGoods {
@@ -10,6 +10,6 @@ public class SpikeGoods {
     private Long goodsId;//Goods.id
     private Double spikePrice;
     private Integer stockCount;
-    private Date startDate;
-    private Date endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 }

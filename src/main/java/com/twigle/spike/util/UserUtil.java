@@ -2,13 +2,13 @@ package com.twigle.spike.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.twigle.spike.model.SpikeUser;
+import com.twigle.spike.domain.SpikeUser;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class UserUtil {
@@ -21,7 +21,7 @@ public class UserUtil {
 			user.setId(13000000000L+i);
 			user.setLoginCount(1);
 			user.setNickname("user"+i);
-			user.setRegisterDate(new Date());
+			user.setRegisterDate(LocalDateTime.now());
 			user.setSalt("1a2b3c");
 			user.setPassword(MD5Util.inputPassToDbPass("123456", user.getSalt()));
 			users.add(user);

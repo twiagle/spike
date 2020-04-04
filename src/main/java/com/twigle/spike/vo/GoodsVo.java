@@ -1,9 +1,9 @@
 package com.twigle.spike.vo;
 
-import com.twigle.spike.model.Goods;
+import com.twigle.spike.domain.Goods;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  *      goods  +  last 4 elements of spikeGoods
@@ -12,6 +12,6 @@ import java.util.Date;
 public class GoodsVo extends Goods {
     private Double spikePrice;
     private Integer stockCount;//spikeCount
-    private Date startDate;
-    private Date endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 }

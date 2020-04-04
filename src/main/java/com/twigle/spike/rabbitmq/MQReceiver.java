@@ -1,7 +1,7 @@
 package com.twigle.spike.rabbitmq;
 
-import com.twigle.spike.model.SpikeOrders;
-import com.twigle.spike.model.SpikeUser;
+import com.twigle.spike.domain.SpikeOrders;
+import com.twigle.spike.domain.SpikeUser;
 import com.twigle.spike.redis.RedisService;
 import com.twigle.spike.service.GoodsService;
 import com.twigle.spike.service.OrderService;

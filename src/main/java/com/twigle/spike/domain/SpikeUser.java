@@ -1,8 +1,8 @@
-package com.twigle.spike.model;
+package com.twigle.spike.domain;
 
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 public class SpikeUser {
@@ -11,7 +11,7 @@ public class SpikeUser {
     private String password;
     private String salt;
     private String head;
-    private Date registerDate;
-    private Date lastLoginDate;
+    private LocalDateTime registerDate;
+    private LocalDateTime lastLoginDate;
     private Integer loginCount;
 }

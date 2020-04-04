@@ -1,7 +1,7 @@
 package com.twigle.spike.dao;
 
-import com.twigle.spike.model.Orders;
-import com.twigle.spike.model.SpikeOrders;
+import com.twigle.spike.domain.Orders;
+import com.twigle.spike.domain.SpikeOrders;
 import org.apache.ibatis.annotations.*;
 
 @Mapper

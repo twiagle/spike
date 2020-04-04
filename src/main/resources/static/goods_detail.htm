@@ -79,7 +79,7 @@
         var goods = detail.goodsVo;
         var user = detail.spikeUser;
         if (user != null) {
-            $("#userTip").hide();
+            $("#userTip").text(user.spikeUser.nickname);
         }
         $("#goodsName").text(goods.goodsName);
         $("#goodsImg").attr("src", goods.goodsImg);
